@@ -61,10 +61,10 @@ RUN wget https://downloads.apache.org/guacamole/${GUAC_VERSION}/source/guacamole
     && rm -rf guacamole-server-${GUAC_VERSION}*
 
 # ============================
-# Webapp Guacamole (guacamole.war)
+# Webapp Guacamole (ROOT.war → /)
 # ============================
 RUN wget https://downloads.apache.org/guacamole/${GUAC_VERSION}/binary/guacamole-${GUAC_VERSION}.war \
-    && mv guacamole-${GUAC_VERSION}.war /usr/local/tomcat/webapps/guacamole.war
+    && mv guacamole-${GUAC_VERSION}.war /usr/local/tomcat/webapps/ROOT.war
 
 # ============================
 # JDBC MySQL + schémas SQL
@@ -84,14 +84,6 @@ RUN wget https://dev.mysql.com/get/Downloads/Connector-J/mysql-connector-j-${MYS
     && rm -rf mysql-connector-j-${MYSQL_CONNECTOR_VERSION}*
 
 # ============================
-# Extension TOTP
-# ============================
-RUN wget https://downloads.apache.org/guacamole/${GUAC_VERSION}/binary/guacamole-auth-totp-${GUAC_VERSION}.tar.gz \
-    && tar -xzf guacamole-auth-totp-${GUAC_VERSION}.tar.gz \
-    && mv guacamole-auth-totp-${GUAC_VERSION}/guacamole-auth-totp-${GUAC_VERSION}.jar /etc/guacamole/extensions/ \
-    && rm -rf guacamole-auth-totp-${GUAC_VERSION}*
-
-# ============================
 # Extension enregistrement vidéo
 # ============================
 RUN wget https://downloads.apache.org/guacamole/${GUAC_VERSION}/binary/guacamole-history-recording-storage-${GUAC_VERSION}.tar.gz \
@@ -101,6 +93,7 @@ RUN wget https://downloads.apache.org/guacamole/${GUAC_VERSION}/binary/guacamole
 
 # ============================
 # Fichier guacamole.properties
+# (TOTP retiré)
 # ============================
 RUN cat << EOF > /etc/guacamole/guacamole.properties
 # ============================
@@ -111,14 +104,6 @@ mysql-port: 3306
 mysql-database: ${GUAC_DB_NAME}
 mysql-username: ${GUAC_DB_USER}
 mysql-password: ${GUAC_DB_PASSWORD}
-
-# ============================
-# TOTP (MFA)
-# ============================
-totp-issuer: Guacamole Lab
-totp-digits: 6
-totp-period: 30
-totp-mode: sha1
 
 # ============================
 # Enregistrements vidéo
