@@ -13,11 +13,10 @@ ENV DEBIAN_FRONTEND=noninteractive \
 RUN apt-get update && apt-get install -y \
     build-essential \
     libcairo2-dev \
-    libjpeg62-turbo-dev \
+    libjpeg-turbo8-dev \
     libpng-dev \
     libtool-bin \
     uuid-dev \
-    libossp-uuid-dev \
     libavcodec-dev \
     libavformat-dev \
     libavutil-dev \
