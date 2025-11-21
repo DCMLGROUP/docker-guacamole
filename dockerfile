@@ -5,7 +5,7 @@ FROM tomcat:9-jdk11
 # ======================================
 ENV DEBIAN_FRONTEND=noninteractive \
     # Versions
-    GUAC_VERSION=1.5.5 \
+    GUAC_VERSION=1.6.0 \
     MYSQL_CONNECTOR_VERSION=9.1.0 \
     # DB interne
     GUAC_DB_NAME=guacadb \
@@ -34,6 +34,7 @@ ENV DEBIAN_FRONTEND=noninteractive \
 
 # ======================================
 # INSTALLATION DES DÉPENDANCES
+# (libjpeg-turbo8-dev pour Ubuntu / base tomcat)
 # ======================================
 RUN apt-get update && apt-get install -y \
     build-essential \
@@ -109,12 +110,14 @@ RUN wget https://dev.mysql.com/get/Downloads/Connector-J/mysql-connector-j-${MYS
     && rm -rf mysql-connector-j-${MYSQL_CONNECTOR_VERSION}*
 
 # ======================================
-# EXTENSION OPENID CONNECT
+# EXTENSION OPENID CONNECT (SSO) - v1.6.0
+# guacamole-auth-sso-${GUAC_VERSION}.tar.gz
+# jar : openid/guacamole-auth-sso-openid-${GUAC_VERSION}.jar
 # ======================================
-RUN wget https://downloads.apache.org/guacamole/${GUAC_VERSION}/binary/guacamole-auth-openid-${GUAC_VERSION}.tar.gz \
-    && tar -xzf guacamole-auth-openid-${GUAC_VERSION}.tar.gz \
-    && mv guacamole-auth-openid-${GUAC_VERSION}/guacamole-auth-openid-${GUAC_VERSION}.jar /etc/guacamole/extensions/ \
-    && rm -rf guacamole-auth-openid-${GUAC_VERSION}*
+RUN wget https://downloads.apache.org/guacamole/${GUAC_VERSION}/binary/guacamole-auth-sso-${GUAC_VERSION}.tar.gz \
+    && tar -xzf guacamole-auth-sso-${GUAC_VERSION}.tar.gz \
+    && mv guacamole-auth-sso-${GUAC_VERSION}/openid/guacamole-auth-sso-openid-${GUAC_VERSION}.jar /etc/guacamole/extensions/ \
+    && rm -rf guacamole-auth-sso-${GUAC_VERSION}*
 
 # ======================================
 # ENREGISTREMENT DES SESSIONS
