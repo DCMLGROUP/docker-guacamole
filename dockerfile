@@ -1,7 +1,7 @@
 FROM tomcat:9-jdk11
 
 ENV DEBIAN_FRONTEND=noninteractive \
-    GUAC_VERSION=1.5.5 \
+    GUAC_VERSION=1.6.0 \
     MYSQL_CONNECTOR_VERSION=9.1.0 \
     GUAC_DB_NAME=guacadb \
     GUAC_DB_USER=guaca_nachos \
